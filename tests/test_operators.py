@@ -108,7 +108,12 @@ def test_sigmoid(a: float) -> None:
     * It is  strictly increasing.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert 0.0 <= sigmoid(a) <= 1.0
+    assert_close(sigmoid(-a), 1.0 - sigmoid(a))
+    assert_close(sigmoid(0.0), 0.5)
+    # Test strict monotonicity only for values not too far apart to avoid underflow/overflow.
+    if abs(a) < 10:
+        assert sigmoid(a - 1e-3) < sigmoid(a + 1e-3)
 
 
 @pytest.mark.task0_2
@@ -116,7 +121,9 @@ def test_sigmoid(a: float) -> None:
 def test_transitive(a: float, b: float, c: float) -> None:
     """Test the transitive property of less-than (a < b and b < c implies a < c)"""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    a, b, c = sorted([a, b, c])
+    if lt(a, b) and lt(b, c):
+        assert lt(a, c)
 
 
 @pytest.mark.task0_2
@@ -125,7 +132,7 @@ def test_symmetric() -> None:
     gives the same value regardless of the order of its input.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert_close(mul(2.0, 3.0), mul(3.0, 2.0))
 
 
 @pytest.mark.task0_2
@@ -134,14 +141,16 @@ def test_distribute() -> None:
     :math:`z \times (x + y) = z \times x + z \times y`
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    x, y, z = 2.0, 3.0, 4.0
+    assert_close(mul(z, add(x, y)), add(mul(z, x), mul(z, y)))
 
 
 @pytest.mark.task0_2
 def test_other() -> None:
     """Write a test that ensures some other property holds for your functions."""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    x, y = 2.0, 3.0
+    assert_close(add(x, y), add(y, x))
 
 
 # ## Task 0.3  - Higher-order functions
@@ -169,7 +178,9 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
     # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    result = addLists(ls1, ls2)
+    for i in range(len(ls1)):
+        assert_close(result[i], ls1[i] + ls2[i])
 
 
 @pytest.mark.task0_3
